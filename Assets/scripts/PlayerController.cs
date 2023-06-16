@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     public float speed = 0;
     private Rigidbody rb;
-    private CharacterController character;
+    private bool isGrounded;
     private float MoveX;
     private float MoveY;
     private float JumpPower;
@@ -16,7 +16,6 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        character = GetComponent<CharacterController>();
     }
 
     void OnMove(InputValue movementValue)
@@ -27,13 +26,17 @@ public class PlayerController : MonoBehaviour
         MoveY = movementVector.y;
     }
 
+    void OnCollisionStay()
+    {
+        isGrounded = true;
+    }
+
     void OnJump(InputValue movementValue)
     {
-        if (!character.isGrounded) return;
-        Debug.Log("here");
-        Vector3 jump = new Vector3(0f, 2f, 0f);
+        if (!isGrounded) return;
+        Vector3 jump = new Vector3(0f, 4f, 0f);
 
-        rb.AddForce(jump, ForceMode.Impulse);  
+        rb.AddForce(jump, ForceMode.Impulse);
     }
 
     //public void Jump(InputAction.CallbackContext context)
@@ -51,8 +54,7 @@ public class PlayerController : MonoBehaviour
         Vector3 movement = new Vector3(-MoveX, JumpPower, -MoveY);
 
         rb.AddForce(movement * speed);
-
-
+        isGrounded = false;
     }
 
 }
