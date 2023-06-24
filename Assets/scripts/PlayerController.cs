@@ -12,7 +12,8 @@ public class PlayerController : MonoBehaviour
     private float MoveY;
     private float JumpPower;
     private Rigidbody rb;
-    public GameObject text;
+    public GameObject LostText;
+    public GameObject WonText;
 
     // Start is called before the first frame update
     void Start()
@@ -41,7 +42,14 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("Game Over");
             isDead = true;
-            text.SetActive(true);
+            LostText.SetActive(true);
+        }
+
+        if (collision.gameObject.name == "finish")
+        {
+            Debug.Log("You Won");
+            isDead = true;
+            WonText.SetActive(true);
         }
     }
 
